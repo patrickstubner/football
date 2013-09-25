@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="football">
+<head>
+<meta charset="UTF-8">
+<title>Fussballresultate FC Dübendorf E d</title>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/football.css" rel="stylesheet">
+</head>
+<body ng-controller="AppCtrl as AppCtrl">
+	<a href="http://mobile.football.ch/fvrz/de/start.aspx?ln=15610&ls=12403&sg=37097" target="football">Mobile football page</a>
+	<textarea rows="5" cols="50" ng-model="AppCtrl.footballPage"></textarea>
+	<br/>
+	<button ng-click="AppCtrl.calculate()">Calculate</button>
+	<br/>
+	<div class="row">
+		<div class="col-xs-12 col-sm-6">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th title="Position">#</th>
+						<th title="Team Name">Name</th>
+						<th title="Spiele" style=" text-align: right;">S</th>
+						<th title="Tore" style=" text-align: right;">T</th>
+						<th title="Gegentore" style=" text-align: right;">GT</th>
+						<th title="Tordifferenz" style=" text-align: right;">TD</th>
+						<th title="Punkte" style=" text-align: right;">P</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="team in AppCtrl.teams | orderBy:AppCtrl.tableOrder.three:AppCtrl.tableOrder.threeReverse | orderBy:AppCtrl.tableOrder.two:AppCtrl.tableOrder.twoReverse | orderBy:AppCtrl.tableOrder.one:AppCtrl.tableOrder.oneReverse"
+						ng-click="AppCtrl.searchFor(team)" ng-class="{selected: AppCtrl.search.$ == team.name}">
+		<!-- 				ng-click="AppCtrl.search.$ = team.name"> -->
+						<td>{{$index+1}}.</td>
+						<td>{{team.name}}</td>
+						<td style=" text-align: right;">{{team.matches}}</td>
+						<td style=" text-align: right;">{{team.goals}}</td>
+						<td style=" text-align: right;">{{team.goalsMinus}}</td>
+						<td style=" text-align: right;">{{team.goalsDiff}}</td>
+						<td style=" text-align: right;">{{team.points}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<input type="checkbox" ng-model="AppCtrl.lostPointsOrder"> Tabelle nach Verlustpunkten</input>
+			<br/>
+			<br/>
+			<br/>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<div ng-repeat="match in AppCtrl.matches | filter:AppCtrl.search" class="repeat-item hover" title="{{match.matchDate}} {{match.startTime}}">
+				<span class="match-result" style="width: 20px;">{{$index+1}}.</span>
+				<span class="match-result" style="width: 140px;">{{match.teamNameA}}</span>
+				<span class="match-result" style="width: 17px; text-align: right;">{{match.teamResultA}}</span>
+				<span class="match-result" style="width: 10px; text-align: center;">-</span>
+				<span class="match-result" style="width: 17px; text-align: right;">{{match.teamResultB}}</span>
+				<span class="match-result" style="width: 140px; padding-left: 10px;">{{match.teamNameB}}</span>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<div>
+<!-- 		<div ng-repeat="match in AppCtrl.matches | filter:AppCtrl.search" class="repeat-item"> -->
+<!-- 			<div style="display: inline-block; width: 20px;">{{$index+1}}.</div> -->
+<!-- 			<div style="display: inline-block; width: 150px;">{{match.teamNameA}}</div> -->
+<!-- 			<div style="display: inline-block; width: 20px;">{{match.teamResultA}}</div> -->
+<!-- 			<div style="display: inline-block; width: 20px;">-</div> -->
+<!-- 			<div style="display: inline-block; width: 20px;">{{match.teamResultB}}</div> -->
+<!-- 			<div style="display: inline-block; width: 150px;">{{match.teamNameB}}</div> -->
+<!-- 		</div> -->
+	</div>
+<!-- 	<div ng-repeat="match in AppCtrl.matches | filter:AppCtrl.search" class="repeat-item"> -->
+<!-- 		<div>{{$index+1}}. {{match.teamNameA}} {{match.teamResultA}} - {{match.teamResultB}} {{match.teamNameB}}</div> -->
+<!-- 	</div> -->
+<!-- 	<br/> -->
+<!-- 	<br/> -->
+<!-- 	matches: {{ AppCtrl.matches }} -->
+<!-- 	<br/> -->
+<!-- 	<br/> -->
+<!-- 	teams: {{ AppCtrl.teams }} -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular-route.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/service/footballService.js"></script>
+<script src="js/controller/AppCtrl.js"></script>
+</body>
+</html>
